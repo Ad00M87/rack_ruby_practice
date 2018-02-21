@@ -6,7 +6,7 @@ class Router
   def route
     if resource = controller_class
       @request.params.merge!(route_info)
-      conroller = resource.new(@request)
+      controller = resource.new(@request)
       action = route_info[:action]
 
       if controller.respond_to?(action)

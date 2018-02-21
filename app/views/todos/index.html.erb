@@ -7,8 +7,8 @@
       <ul>
         <% @todos.each do |todo| %>
           <li>
-            <a href="/todos/<%= todo[:id] %>">
-              <%= "#{todo[:id]} - #{todo[:name]}" %>
+            <a href="/todos/<%= todo.id %>">
+              <%= "#{todo.id} - #{todo.name}" %>
             </a>
           </li>
         <% end %>

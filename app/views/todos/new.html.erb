@@ -4,6 +4,11 @@
     <div>
       <h1><%= @title %></h1>
       <form action="/todos" method="POST">
+        <div>
+          <label for="todo_name">Todo Name</label>
+          <input type="text" name="todo[name]" id="todo_name">
+        </div>
+        <input type="submit" name="commit" value="create">
       </form>
     </div>
   </body>
