@@ -4,11 +4,18 @@ class Router
   end
 
   def route
-    if @request.path == "/"
-      [200, { "Content-Type" => "text/plain" }, ["This is the root route"]]
-    else
-      page_not_found
+    if resource = controller_class
+      @request.params.merge!(route_info)
+      conroller = resource.new(@request)
+      action = route_info[:action]
+
+      if controller.respond_to?(action)
+        puts "\nStarting #{action} to #{resource}"
+        return controller.public_send(action)
+      end
     end
+
+    page_not_found
   end
 
   private
@@ -38,5 +45,15 @@ class Router
 
     def path_fragments
       @fragments ||= @request.path.split('/').reject { |s| s.empty? }
+    end
+
+    def controller_name
+      #TodosController
+      "#{route_info[:resource].capitalize}Controller"
+    end
+
+    def controller_class
+      #Turn the string 'TodosController' into the constant TodosController return nil if there is an error
+      Object.const_get(controller_name) rescue nil
     end
 end
