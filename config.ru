@@ -1,1 +1,4 @@
-run Proc.new { |env| ['200', {'Content-Type' => 'text/html'}, ["My Rack Application"]] }
+require './application'
+
+use Rack::Reloader, 0 #Reloads server if a file changes
+run Application.new
