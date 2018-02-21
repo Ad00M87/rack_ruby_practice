@@ -4,17 +4,23 @@ class TodosController < BaseController
 
   # GET/todos
   def index
-    server_response todos_page("this should be a list of todos")
+    @title = "Todos"
+    @todos = todos
+
+    server_response render_template
   end
 
   #GET/todos/:id
   def show
-    server_response todos_page("this should show todo ##{params[:id]}")
+    @todo = todos.find { |t| t[:id] == params[:id].to_i }
+    @title = "#{@todo[:name]} page"
+    server_response render_template
   end
 
   # GET /todos/new
   def new
-    server_response todos_page("a page to create a new todo")
+    @title = "Add an item"
+    server_response render_template
   end
 
   # POST /todos
@@ -25,15 +31,11 @@ class TodosController < BaseController
 
   private
 
-  def todos_page(message)
-    <<~HTML
-      <html>
-        <head><title>My First Rack Application</title></head>
-        <body>
-          <h1>This is TodosController##{params[:action]}</h1>
-          <p>#{message}</p>
-        </body>
-      </html>
-    HTML
+  def todos
+    [
+      { id: 1, name: 'Learn Ruby' },
+      { id: 2, name: 'Build a server' },
+      { id: 3, name: 'Profit' }
+    ]
   end
 end

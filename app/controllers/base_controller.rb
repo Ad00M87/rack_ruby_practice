@@ -1,3 +1,5 @@
+require 'erb'
+
 class BaseController
   attr_reader :request
 
@@ -30,7 +32,9 @@ class BaseController
   end
 
   def render_erb_file(file_path)
-    File.read(file_path)
+    raw = File.read(file_path)
+    #NOTE passing in binding will allow ERB to access the controllers instance variable
+    ERB.new(raw).result(binding)
   end
 
   #Default status code to 200 but allow customization
